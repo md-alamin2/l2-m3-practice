@@ -42,11 +42,46 @@ class LinkList {
     this.length++;
   }
 
-  insert() {
-    
+  insert(index, value) {
+    if (index < 0 || index > this.length) {
+      console.error("Index out of bounds");
+      return undefined;
+    }
+
+    // if the insert in the beginning
+    if (index === 0) {
+      return this.prepend(value);
+    }
+
+    // if the insert in the end
+    if (index === this.length) {
+      return this.append(value);
+    }
+
+    // if the insert in the middle
+
+    // find the leading node
+    const leadingNode = this._traverseToIndex(index - 1);
+    const holdingNode = leadingNode.next;
+    const newNode = new Node(value);
+    leadingNode.next = newNode;
+    newNode.next = holdingNode;
+
+    this.length++;
   }
 
   remove() {}
+
+  _traverseToIndex(index) {
+    let count = 0;
+    let currentNode = this.head;
+    while (count !== index) {
+      currentNode = currentNode.next;
+      count++;
+    }
+
+    return currentNode;
+  }
 
   print() {
     const arr = [];
@@ -67,8 +102,6 @@ linkedList.append(2);
 linkedList.append(3);
 linkedList.append(4);
 
-linkedList.prepend(10)
-linkedList.prepend(20)
-linkedList.prepend(30)
+// linkedList.insert(2, 500);
 
 linkedList.print();
