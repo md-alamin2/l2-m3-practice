@@ -70,7 +70,35 @@ class LinkList {
     this.length++;
   }
 
-  remove() {}
+  remove(index) {
+    if (index < 0 || index > this.length) {
+      console.error("Index out of bounds");
+      return undefined;
+    }
+
+    // if remove the head node
+    if (index === 0) {
+      const removedItem = this.head.value;
+      this.head = this.head.next;
+      // if the list had only one node
+      if (this.length === 1) {
+        this.tail = null;
+      }
+
+      this.length--;
+
+      return removedItem;
+    }
+
+    const leadingNode = this._traverseToIndex(index - 1);
+    const nodeToBeRemoved = leadingNode.next;
+    leadingNode.next = nodeToBeRemoved.next;
+
+    // if the removed node is the tail
+    if (leadingNode.next === null) {
+      this.tail = leadingNode;
+    }
+  }
 
   _traverseToIndex(index) {
     let count = 0;
@@ -103,5 +131,12 @@ linkedList.append(3);
 linkedList.append(4);
 
 // linkedList.insert(2, 500);
+
+linkedList.print();
+
+linkedList.remove(3);
+linkedList.remove(2);
+linkedList.remove(1);
+linkedList.remove(0);
 
 linkedList.print();
